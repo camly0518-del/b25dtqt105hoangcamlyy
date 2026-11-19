@@ -1,0 +1,1279 @@
+/* ============================================================
+   DATAMIND AI AGENT - CYBER CYAN & NEON PINK DESIGN SYSTEM
+   Công Ty Cổ Phần DataMind Intelligence
+   Hệ Thống Thiết Kế Tương Thích Hoàn Hảo Sáng / Tối (Cyan & Pink)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap');
+
+:root {
+    /* ================= DARK MODE: CYBER SPACE (CYAN & PINK) ================= */
+    --exec-bg: #070b16;
+    --exec-bg-alt: #0a1020;
+    --exec-surface: #0f172a;
+    --exec-card-bg: rgba(15, 23, 42, 0.85);
+    --exec-card-hover: rgba(22, 33, 62, 0.95);
+    --exec-card-sub: rgba(11, 18, 33, 0.88);
+    --exec-border: rgba(6, 182, 212, 0.30);
+    --exec-border-hover: rgba(236, 72, 153, 0.70);
+    
+    --exec-cyan: #06b6d4;
+    --exec-cyan-light: #38bdf8;
+    --exec-pink: #ec4899;
+    --exec-pink-light: #f43f5e;
+    --exec-blue: #3b82f6;
+    --exec-gold: #fbbf24;
+    --exec-emerald: #10b981;
+    
+    --exec-text-primary: #ffffff;
+    --exec-text-secondary: #e2e8f0;
+    --exec-text-muted: rgba(226, 232, 240, 0.70);
+    
+    --exec-shadow: 0 16px 45px -8px rgba(0, 0, 0, 0.75), 0 0 25px rgba(6, 182, 212, 0.18);
+}
+
+/* ================= LIGHT MODE: CRISP CYBER DAWN ================= */
+[data-theme="light"],
+html.light-mode {
+    --exec-bg: #f8fafc;
+    --exec-bg-alt: #f1f5f9;
+    --exec-surface: #ffffff;
+    --exec-card-bg: #ffffff;
+    --exec-card-hover: #ffffff;
+    --exec-card-sub: #f8fafc;
+    --exec-border: #cbd5e1;
+    --exec-border-hover: #06b6d4;
+    
+    --exec-cyan: #0284c7;
+    --exec-cyan-light: #0ea5e9;
+    --exec-pink: #db2777;
+    --exec-pink-light: #e11d48;
+    --exec-blue: #2563eb;
+    --exec-gold: #d97706;
+    --exec-emerald: #059669;
+    
+    --exec-text-primary: #0f172a;      /* Đen than tuyền 100% tương phản */
+    --exec-text-secondary: #1e293b;    /* Xám than đậm */
+    --exec-text-muted: #475569;        /* Xám trung tính sắc nét */
+    
+    --exec-shadow: 0 8px 30px -4px rgba(2, 132, 199, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* ================= NỀN VŨ TRỤ (CYAN + PINK) ================= */
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--exec-bg);
+    background-image: 
+        radial-gradient(at 10% 15%, rgba(6, 182, 212, 0.22) 0px, transparent 55%),
+        radial-gradient(at 90% 15%, rgba(236, 72, 153, 0.20) 0px, transparent 55%),
+        radial-gradient(at 50% 40%, rgba(14, 165, 233, 0.15) 0px, transparent 65%),
+        radial-gradient(at 85% 90%, rgba(244, 63, 94, 0.18) 0px, transparent 55%),
+        radial-gradient(at 15% 90%, rgba(6, 182, 212, 0.18) 0px, transparent 55%),
+        linear-gradient(180deg, #070b16 0%, #03060d 100%);
+    background-attachment: fixed;
+    color: var(--exec-text-primary);
+    min-height: 100vh;
+}
+
+[data-theme="light"] body,
+html.light-mode body {
+    background-color: #f8fafc;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(207, 250, 254, 0.5) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(252, 231, 243, 0.5) 0px, transparent 50%),
+        radial-gradient(at 50% 40%, rgba(240, 253, 250, 0.7) 0px, transparent 70%),
+        linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    color: #0f172a;
+}
+
+.font-heading {
+    font-family: 'Montserrat', 'Oswald', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+/* Ambient Orbs */
+@keyframes floatOrb {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-25px) scale(1.06); }
+}
+
+.cosmic-orb {
+    animation: floatOrb 9s ease-in-out infinite;
+}
+
+/* Tiêu đề Gradient Xanh + Hồng */
+.galaxy-title-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #38bdf8 40%, #ec4899 80%, #f43f5e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .galaxy-title-gradient,
+html.light-mode .galaxy-title-gradient {
+    background: linear-gradient(135deg, #0f172a 0%, #0284c7 45%, #db2777 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ================= HEADER BAR ================= */
+.exec-nav-header {
+    background: rgba(7, 11, 22, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="light"] .exec-nav-header,
+html.light-mode .exec-nav-header {
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid #cbd5e1;
+    box-shadow: 0 4px 20px rgba(2, 132, 199, 0.06);
+}
+
+[data-theme="light"] .exec-nav-header span.font-extrabold,
+html.light-mode .exec-nav-header span.font-extrabold {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .exec-nav-header p,
+html.light-mode .exec-nav-header p {
+    color: #475569 !important;
+}
+
+/* ================= SLIDE CHÍNH: MASTER PRESENTATION COVER ================= */
+.exec-master-slide {
+    background: linear-gradient(135deg, #09152b 0%, #0d223f 40%, #2a1129 80%, #15091b 100%);
+    border: 1px solid rgba(6, 182, 212, 0.40);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.50), 0 0 35px rgba(236, 72, 153, 0.20);
+}
+
+[data-theme="light"] .exec-master-slide,
+html.light-mode .exec-master-slide {
+    background: linear-gradient(135deg, #09152b 0%, #0d223f 40%, #2a1129 80%, #15091b 100%) !important;
+    border: 1px solid rgba(6, 182, 212, 0.45) !important;
+}
+
+.exec-master-slide h1,
+[data-theme="light"] .exec-master-slide h1,
+html.light-mode .exec-master-slide h1 {
+    color: #ffffff !important;
+}
+
+.exec-master-slide .master-slide-desc,
+[data-theme="light"] .exec-master-slide .master-slide-desc,
+html.light-mode .exec-master-slide .master-slide-desc,
+[data-theme="light"] .exec-master-slide p,
+html.light-mode .exec-master-slide p {
+    color: #f1f5f9 !important;
+}
+
+.exec-master-slide .master-slide-meta-title,
+[data-theme="light"] .exec-master-slide .master-slide-meta-title,
+html.light-mode .exec-master-slide .master-slide-meta-title {
+    color: #e2e8f0 !important;
+}
+
+.exec-master-slide .master-slide-meta-sub,
+[data-theme="light"] .exec-master-slide .master-slide-meta-sub,
+html.light-mode .exec-master-slide .master-slide-meta-sub {
+    color: #38bdf8 !important;
+}
+
+/* NÚT BẮT ĐẦU HERO */
+.exec-btn-hero {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 50%, #fdf2f8 100%) !important;
+    border: 1px solid #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(6, 182, 212, 0.3) !important;
+}
+
+.exec-btn-hero *,
+[data-theme="light"] .exec-btn-hero *,
+html.light-mode .exec-btn-hero * {
+    color: #0f172a !important;
+}
+
+.exec-btn-hero:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #fed7aa 100%) !important;
+    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.35) !important;
+}
+
+/* ================= SLIDE PHỤ: NỘI DUNG TRÌNH BÀY (AGENDA) ================= */
+.exec-agenda-slide {
+    background: var(--exec-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--exec-border);
+}
+
+.agenda-eyebrow {
+    color: #f59e0b;
+}
+
+.agenda-heading {
+    color: #ffffff;
+}
+
+.agenda-badge-6g {
+    background: rgba(6, 182, 212, 0.25);
+    color: #38bdf8;
+    border: 1px solid rgba(6, 182, 212, 0.40);
+}
+
+.agenda-item {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(6, 182, 212, 0.20);
+}
+
+.agenda-item:hover {
+    background: rgba(22, 33, 62, 0.90);
+    border-color: rgba(236, 72, 153, 0.65);
+    transform: translateX(4px);
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.20);
+}
+
+.agenda-item .agenda-num {
+    background: linear-gradient(135deg, #06b6d4, #ec4899);
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.40);
+}
+
+.agenda-item-title {
+    color: #ffffff;
+}
+
+.agenda-item-sub {
+    color: #cbd5e1;
+}
+
+.agenda-chevron {
+    color: #38bdf8;
+}
+
+.agenda-footer-hint {
+    color: #94a3b8;
+}
+
+[data-theme="light"] .exec-agenda-slide,
+html.light-mode .exec-agenda-slide {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 10px 30px rgba(2, 132, 199, 0.08) !important;
+}
+
+[data-theme="light"] .agenda-eyebrow,
+html.light-mode .agenda-eyebrow {
+    color: #b45309 !important;
+}
+
+[data-theme="light"] .agenda-heading,
+html.light-mode .agenda-heading {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .agenda-badge-6g,
+html.light-mode .agenda-badge-6g {
+    background: #f0fdfa !important;
+    color: #0284c7 !important;
+    border: 1px solid #ccfbf1 !important;
+}
+
+[data-theme="light"] .agenda-item,
+html.light-mode .agenda-item {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .agenda-item:hover,
+html.light-mode .agenda-item:hover {
+    background: #f0fdfa !important;
+    border-color: #06b6d4 !important;
+}
+
+[data-theme="light"] .agenda-num,
+html.light-mode .agenda-num {
+    background: linear-gradient(135deg, #0284c7, #db2777) !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+[data-theme="light"] .agenda-item-title,
+html.light-mode .agenda-item-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .agenda-item-sub,
+html.light-mode .agenda-item-sub {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .agenda-chevron,
+html.light-mode .agenda-chevron {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .agenda-footer-hint,
+html.light-mode .agenda-footer-hint {
+    color: #475569 !important;
+}
+
+/* ================= THẺ EXECUTIVE CARD & GALAXY CARD ================= */
+.exec-card,
+.galaxy-card {
+    background: var(--exec-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--exec-border);
+    box-shadow: var(--exec-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.exec-card:hover,
+.galaxy-card:hover {
+    border-color: var(--exec-border-hover);
+    box-shadow: 0 16px 45px -5px rgba(0, 0, 0, 0.8), 0 0 30px rgba(6, 182, 212, 0.25);
+}
+
+[data-theme="light"] .exec-card,
+[data-theme="light"] .galaxy-card,
+html.light-mode .exec-card,
+html.light-mode .galaxy-card {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 10px 30px -4px rgba(2, 132, 199, 0.08), 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .exec-card:hover,
+[data-theme="light"] .galaxy-card:hover,
+html.light-mode .exec-card:hover,
+html.light-mode .galaxy-card:hover {
+    border-color: #06b6d4 !important;
+}
+
+.exec-sub-card {
+    background: var(--exec-card-sub);
+    border: 1px solid var(--exec-border);
+}
+
+[data-theme="light"] .exec-sub-card,
+html.light-mode .exec-sub-card {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* ================= THẺ BADGE & PILL ================= */
+.exec-badge,
+.slide-tag {
+    background: rgba(6, 182, 212, 0.20);
+    color: #38bdf8;
+    border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+[data-theme="light"] .exec-badge,
+[data-theme="light"] .slide-tag,
+html.light-mode .exec-badge,
+html.light-mode .slide-tag {
+    background: #f0fdfa !important;
+    color: #0284c7 !important;
+    border-color: #ccfbf1 !important;
+    font-weight: 800 !important;
+}
+
+/* ================= 3 THẺ BỘ DỮ LIỆU MẪU (CYAN & PINK) ================= */
+.sample-dataset-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
+}
+
+.sample-dataset-card:hover {
+    background: rgba(22, 33, 62, 0.95);
+    border-color: rgba(236, 72, 153, 0.70);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(236, 72, 153, 0.25);
+}
+
+.sample-dataset-card .sample-card-title {
+    color: #ffffff;
+}
+
+.sample-dataset-card .sample-card-desc {
+    color: #cbd5e1;
+}
+
+.sample-dataset-card .sample-card-icon {
+    background: rgba(6, 182, 212, 0.20);
+    color: #38bdf8;
+    border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+.sample-dataset-card .sample-card-badge {
+    background: rgba(236, 72, 153, 0.25);
+    color: #fbcfe8;
+    border: 1px solid rgba(236, 72, 153, 0.40);
+}
+
+.sample-dataset-card .sample-card-action {
+    color: #38bdf8;
+    border-top: 1px solid rgba(6, 182, 212, 0.20);
+}
+
+/* LIGHT MODE CHO 3 THẺ MẪU (100% TRẮNG SÁNG VÀ RÕ NÉT) */
+[data-theme="light"] .sample-dataset-card,
+html.light-mode .sample-dataset-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 4px 18px rgba(2, 132, 199, 0.08) !important;
+}
+
+[data-theme="light"] .sample-dataset-card:hover,
+html.light-mode .sample-dataset-card:hover {
+    background: #f8fafc !important;
+    border-color: #06b6d4 !important;
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.15) !important;
+}
+
+[data-theme="light"] .sample-dataset-card .sample-card-title,
+html.light-mode .sample-dataset-card .sample-card-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .sample-dataset-card .sample-card-desc,
+html.light-mode .sample-dataset-card .sample-card-desc {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .sample-dataset-card .sample-card-icon,
+html.light-mode .sample-dataset-card .sample-card-icon {
+    background: #f0fdfa !important;
+    color: #0284c7 !important;
+    border: 1px solid #ccfbf1 !important;
+}
+
+[data-theme="light"] .sample-dataset-card .sample-card-badge,
+html.light-mode .sample-dataset-card .sample-card-badge {
+    background: #fdf2f8 !important;
+    color: #db2777 !important;
+    border: 1px solid #fbcfe8 !important;
+}
+
+[data-theme="light"] .sample-dataset-card .sample-card-action,
+html.light-mode .sample-dataset-card .sample-card-action {
+    color: #0284c7 !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+
+/* ================= THẺ KPI (CYAN & PINK ACCENTS) ================= */
+.exec-kpi-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
+    transition: all 0.3s ease;
+}
+
+.exec-kpi-card:hover {
+    background: rgba(22, 33, 62, 0.95);
+    border-color: rgba(236, 72, 153, 0.70);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(6, 182, 212, 0.25);
+}
+
+[data-theme="light"] .exec-kpi-card,
+html.light-mode .exec-kpi-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.07) !important;
+}
+
+[data-theme="light"] .exec-kpi-card:hover,
+html.light-mode .exec-kpi-card:hover {
+    border-color: #06b6d4 !important;
+    box-shadow: 0 10px 25px rgba(6, 182, 212, 0.15) !important;
+}
+
+[data-theme="light"] .exec-kpi-card .text-white,
+html.light-mode .exec-kpi-card .text-white {
+    color: #0f172a !important;
+}
+
+/* ================= NÚT BẤM (CYAN & PINK NEON) ================= */
+.exec-btn-primary,
+.btn-galaxy-primary,
+.btn-galaxy-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #0284c7 45%, #ec4899 100%);
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.40);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.exec-btn-primary:hover,
+.btn-galaxy-primary:hover,
+.btn-galaxy-cyan:hover {
+    background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 45%, #f43f5e 100%);
+    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.50);
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .exec-btn-primary,
+[data-theme="light"] .btn-galaxy-primary,
+[data-theme="light"] .btn-galaxy-cyan,
+html.light-mode .exec-btn-primary,
+html.light-mode .btn-galaxy-primary,
+html.light-mode .btn-galaxy-cyan {
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 45%, #db2777 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35) !important;
+}
+
+.exec-btn-ghost,
+.btn-galaxy-ghost {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.exec-btn-ghost:hover,
+.btn-galaxy-ghost:hover {
+    background: rgba(22, 33, 62, 0.90);
+    border-color: rgba(236, 72, 153, 0.65);
+    color: #ffffff;
+}
+
+[data-theme="light"] .exec-btn-ghost,
+[data-theme="light"] .btn-galaxy-ghost,
+html.light-mode .exec-btn-ghost,
+html.light-mode .btn-galaxy-ghost {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+[data-theme="light"] .exec-btn-ghost:hover,
+[data-theme="light"] .btn-galaxy-ghost:hover,
+html.light-mode .exec-btn-ghost:hover,
+html.light-mode .btn-galaxy-ghost:hover {
+    background: #f0fdfa !important;
+    border-color: #06b6d4 !important;
+    color: #0284c7 !important;
+}
+
+/* ================= THANH TIẾN TRÌNH SLIDE (STEPPER) ================= */
+.exec-stepper-bar {
+    background: rgba(7, 11, 22, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.20);
+}
+
+[data-theme="light"] .exec-stepper-bar,
+html.light-mode .exec-stepper-bar {
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.step-btn {
+    border: 1px solid rgba(6, 182, 212, 0.20);
+    background: rgba(15, 23, 42, 0.70);
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.step-btn:hover {
+    border-color: rgba(236, 72, 153, 0.60);
+    background: rgba(22, 33, 62, 0.85);
+    color: #ffffff;
+}
+
+.step-btn .step-icon {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.step-btn.active {
+    border-color: #06b6d4;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.85) 0%, rgba(236, 72, 153, 0.85) 100%);
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.40);
+}
+
+.step-btn.active .step-icon {
+    background: #ffffff;
+    color: #0284c7;
+    border-color: #ffffff;
+    font-weight: 900;
+}
+
+[data-theme="light"] .step-btn,
+html.light-mode .step-btn {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+[data-theme="light"] .step-btn .step-title,
+html.light-mode .step-btn .step-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .step-btn .step-icon,
+html.light-mode .step-btn .step-icon {
+    background: #f0fdfa;
+    border-color: #ccfbf1;
+    color: #0284c7;
+}
+
+[data-theme="light"] .step-btn.active,
+html.light-mode .step-btn.active {
+    background: linear-gradient(135deg, #0284c7 0%, #db2777 100%) !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .step-btn.active .step-title,
+html.light-mode .step-btn.active .step-title {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .step-btn.active .step-icon,
+html.light-mode .step-btn.active .step-icon {
+    background: #ffffff !important;
+    color: #0284c7 !important;
+}
+
+/* ================= BẢNG DỮ LIỆU (TABLES) ================= */
+.exec-table-wrap {
+    background: rgba(11, 18, 33, 0.88);
+}
+
+.exec-table th {
+    background: rgba(15, 23, 42, 0.95);
+    color: #38bdf8;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(6, 182, 212, 0.30);
+    white-space: nowrap;
+}
+
+.exec-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(6, 182, 212, 0.15);
+    color: #f1f5f9;
+    white-space: nowrap;
+}
+
+.exec-table tr:hover {
+    background: rgba(22, 33, 62, 0.60);
+}
+
+[data-theme="light"] .exec-table-wrap,
+html.light-mode .exec-table-wrap {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .exec-table th,
+html.light-mode .exec-table th {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .exec-table td,
+html.light-mode .exec-table td {
+    color: #0f172a !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+[data-theme="light"] .exec-table tr:hover,
+html.light-mode .exec-table tr:hover {
+    background: #f0fdfa !important;
+}
+
+/* ================= Ô NHẬP LIỆU ================= */
+.exec-input {
+    background: rgba(15, 23, 42, 0.90);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.exec-input:focus {
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.30);
+}
+
+[data-theme="light"] .exec-input,
+html.light-mode .exec-input {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .exec-input:focus,
+html.light-mode .exec-input:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.20) !important;
+}
+
+/* ================= KHUNG CHAT AI ================= */
+.exec-chat-box {
+    background: rgba(11, 18, 33, 0.92);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.exec-chat-bubble {
+    background: rgba(15, 23, 42, 0.90);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+}
+
+.exec-prompt-btn {
+    background: rgba(22, 33, 62, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: #e2e8f0;
+}
+
+.exec-prompt-btn:hover {
+    background: #06b6d4;
+    color: #ffffff;
+}
+
+[data-theme="light"] .exec-chat-box,
+html.light-mode .exec-chat-box {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .exec-chat-bubble,
+html.light-mode .exec-chat-bubble {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.05) !important;
+}
+
+[data-theme="light"] .exec-prompt-btn,
+html.light-mode .exec-prompt-btn {
+    background: #f0fdfa !important;
+    border-color: #ccfbf1 !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .exec-prompt-btn:hover,
+html.light-mode .exec-prompt-btn:hover {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+/* ================= DRAG & DROP ZONE ================= */
+.exec-dropzone {
+    background: rgba(15, 23, 42, 0.65);
+}
+
+.exec-dropzone:hover {
+    background: rgba(22, 33, 62, 0.85);
+    border-color: #06b6d4;
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
+}
+
+[data-theme="light"] .exec-dropzone,
+html.light-mode .exec-dropzone {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .exec-dropzone:hover,
+html.light-mode .exec-dropzone:hover {
+    background: #f0fdfa !important;
+    border-color: #06b6d4 !important;
+}
+
+[data-theme="light"] .exec-dropzone h4,
+html.light-mode .exec-dropzone h4 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .exec-dropzone p,
+html.light-mode .exec-dropzone p {
+    color: #475569 !important;
+}
+
+/* ================= TRẠM KIỂM DUYỆT (PROPOSALS LIST) ================= */
+.proposal-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+}
+
+.proposal-card:hover {
+    background: rgba(22, 33, 62, 0.95);
+    border-color: rgba(236, 72, 153, 0.65);
+}
+
+.prop-title {
+    color: #ffffff;
+}
+
+.prop-desc {
+    color: #cbd5e1;
+}
+
+.prop-proposed {
+    color: #38bdf8;
+}
+
+.prop-impact {
+    background: #0d1e38;
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: #f1f5f9;
+}
+
+.prop-divider {
+    border-color: rgba(6, 182, 212, 0.20);
+}
+
+.prop-label {
+    color: #e2e8f0;
+}
+
+.prop-select {
+    background: #0a1324;
+    border-color: rgba(6, 182, 212, 0.35);
+    color: #ffffff;
+}
+
+[data-theme="light"] .proposal-card,
+html.light-mode .proposal-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.05) !important;
+}
+
+[data-theme="light"] .proposal-card:hover,
+html.light-mode .proposal-card:hover {
+    background: #f8fafc !important;
+    border-color: #06b6d4 !important;
+}
+
+[data-theme="light"] .prop-title,
+html.light-mode .prop-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .prop-desc,
+html.light-mode .prop-desc {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .prop-proposed,
+html.light-mode .prop-proposed {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .prop-impact,
+html.light-mode .prop-impact {
+    background: #f0fdfa !important;
+    border: 1px solid #ccfbf1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .prop-divider,
+html.light-mode .prop-divider {
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .prop-label,
+html.light-mode .prop-label {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .prop-select,
+html.light-mode .prop-select {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* ================= CHI TIẾT CHẨN ĐOÁN (DIAGNOSTICS DETAILS) ================= */
+.diag-detail-item {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.diag-item-title {
+    color: #ffffff;
+}
+
+.diag-item-badge {
+    background: rgba(236, 72, 153, 0.25);
+    color: #fbcfe8;
+    border: 1px solid rgba(236, 72, 153, 0.35);
+}
+
+.diag-item-sub {
+    color: #cbd5e1;
+}
+
+[data-theme="light"] .diag-detail-item,
+html.light-mode .diag-detail-item {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .diag-item-title,
+html.light-mode .diag-item-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .diag-item-badge,
+html.light-mode .diag-item-badge {
+    background: #fdf2f8 !important;
+    color: #db2777 !important;
+    border-color: #fbcfe8 !important;
+}
+
+[data-theme="light"] .diag-item-sub,
+html.light-mode .diag-item-sub {
+    color: #64748b !important;
+}
+
+/* ================= THẺ BEFORE/AFTER & AUDIT ================= */
+.before-after-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+}
+
+.card-meta-label {
+    color: #cbd5e1;
+}
+
+.card-meta-val {
+    color: #ffffff;
+}
+
+.card-meta-sub {
+    color: #38bdf8;
+}
+
+.audit-item {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(6, 182, 212, 0.20);
+}
+
+.audit-action {
+    color: #ffffff;
+}
+
+.audit-details {
+    color: #cbd5e1;
+}
+
+.audit-tag {
+    background: rgba(236, 72, 153, 0.25);
+    color: #fbcfe8;
+    border: 1px solid rgba(236, 72, 153, 0.25);
+}
+
+[data-theme="light"] .before-after-card,
+html.light-mode .before-after-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .card-meta-label,
+html.light-mode .card-meta-label {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .card-meta-val,
+html.light-mode .card-meta-val {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .card-meta-sub,
+html.light-mode .card-meta-sub {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .audit-item,
+html.light-mode .audit-item {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .audit-action,
+html.light-mode .audit-action {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .audit-details,
+html.light-mode .audit-details {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .audit-tag,
+html.light-mode .audit-tag {
+    background: #fdf2f8 !important;
+    color: #db2777 !important;
+    border-color: #fbcfe8 !important;
+}
+
+/* ================= TOAST NOTIFICATION ================= */
+#toast {
+    background: #0f172a;
+    color: #ffffff;
+    border: 1px solid rgba(6, 182, 212, 0.50);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(6, 182, 212, 0.35);
+}
+
+[data-theme="light"] #toast,
+html.light-mode #toast {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 15px 35px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* ================= LIGHT MODE OVERRIDES CHUNG (100% RÕ NÉT) ================= */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+html.light-mode h1,
+html.light-mode h2,
+html.light-mode h3,
+html.light-mode h4 {
+    color: #0f172a;
+}
+
+[data-theme="light"] p,
+html.light-mode p {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .text-white,
+html.light-mode .text-white {
+    color: #0f172a !important;
+}
+
+/* Các ngoại lệ giữ text-white */
+[data-theme="light"] .exec-btn-primary *,
+[data-theme="light"] .btn-galaxy-primary *,
+[data-theme="light"] .step-btn.active *,
+html.light-mode .exec-btn-primary *,
+html.light-mode .btn-galaxy-primary *,
+html.light-mode .step-btn.active * {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] [class*="text-purple-100"],
+[data-theme="light"] [class*="text-purple-200"],
+[data-theme="light"] [class*="text-slate-100"],
+[data-theme="light"] [class*="text-slate-200"],
+html.light-mode [class*="text-purple-100"],
+html.light-mode [class*="text-purple-200"],
+html.light-mode [class*="text-slate-100"],
+html.light-mode [class*="text-slate-200"] {
+    color: #334155 !important;
+}
+
+[data-theme="light"] [class*="text-cyan-300"],
+[data-theme="light"] [class*="text-cyan-400"],
+html.light-mode [class*="text-cyan-300"],
+html.light-mode [class*="text-cyan-400"] {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] [class*="text-pink-300"],
+[data-theme="light"] [class*="text-pink-400"],
+html.light-mode [class*="text-pink-300"],
+html.light-mode [class*="text-pink-400"] {
+    color: #db2777 !important;
+}
+
+[data-theme="light"] code,
+html.light-mode code {
+    background: #f1f5f9 !important;
+    color: #0284c7 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] #dataset-badge,
+html.light-mode #dataset-badge {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+[data-theme="light"] #raw-count-tag,
+[data-theme="light"] #clean-count-tag,
+html.light-mode #raw-count-tag,
+html.light-mode #clean-count-tag {
+    background: #f0fdfa !important;
+    border-color: #ccfbf1 !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] #raw-pagination-info,
+[data-theme="light"] #clean-pagination-info,
+html.light-mode #raw-pagination-info,
+html.light-mode #clean-pagination-info {
+    color: #475569 !important;
+}
+
+[data-theme="light"] #raw-pagination-controls button,
+[data-theme="light"] #clean-pagination-controls button,
+html.light-mode #raw-pagination-controls button,
+html.light-mode #clean-pagination-controls button {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] #raw-pagination-controls span,
+[data-theme="light"] #clean-pagination-controls span,
+html.light-mode #raw-pagination-controls span,
+html.light-mode #clean-pagination-controls span {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] #apikey-modal > div,
+html.light-mode #apikey-modal > div {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* ================= SCROLLBAR ================= */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(7, 11, 22, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #06b6d4;
+    border-radius: 4px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track,
+html.light-mode ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb,
+html.light-mode ::-webkit-scrollbar-thumb {
+    background: #0284c7;
+}
+
+/* ================= TYPOGRAPHY & THEME CONTRAST ================= */
+.slide-subtitle {
+    color: #cbd5e1;
+}
+
+[data-theme="light"] .slide-subtitle,
+html.light-mode .slide-subtitle {
+    color: #334155 !important;
+}
+
+.exec-code {
+    background: rgba(6, 182, 212, 0.20);
+    color: #38bdf8;
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+[data-theme="light"] .exec-code,
+html.light-mode .exec-code {
+    background: #f0fdfa !important;
+    color: #0284c7 !important;
+    border: 1px solid #ccfbf1 !important;
+}
+
+.sample-selection-title {
+    color: #38bdf8;
+}
+
+[data-theme="light"] .sample-selection-title,
+html.light-mode .sample-selection-title {
+    color: #0284c7 !important;
+}
+
+.dropzone-title {
+    color: #ffffff;
+}
+
+.dropzone-desc {
+    color: #cbd5e1;
+}
+
+[data-theme="light"] .dropzone-title,
+html.light-mode .dropzone-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .dropzone-desc,
+html.light-mode .dropzone-desc {
+    color: #475569 !important;
+}
+
+.kpi-title {
+    color: #cbd5e1;
+}
+
+.kpi-val {
+    color: #ffffff;
+}
+
+.kpi-sub {
+    color: #94a3b8;
+}
+
+[data-theme="light"] .kpi-title,
+html.light-mode .kpi-title {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .kpi-val,
+html.light-mode .kpi-val {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .kpi-sub,
+html.light-mode .kpi-sub {
+    color: #64748b !important;
+}
+
+.chat-bot-bubble {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    color: #f1f5f9;
+}
+
+[data-theme="light"] .chat-bot-bubble,
+html.light-mode .chat-bot-bubble {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08) !important;
+}
+
+[data-theme="light"] .chat-bot-bubble strong,
+html.light-mode .chat-bot-bubble strong {
+    color: #0284c7 !important;
+}

@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="vi" id="app-html" data-theme="dark" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATAMIND AI AGENT - BÁO CÁO KINH DOANH & PHÂN TÍCH THÔNG MINH</title>
+    <!-- Google Fonts: Montserrat & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Montserrat', 'Oswald', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    },
+                    colors: {
+                        galaxy: {
+                            deep: '#070b16',
+                            card: '#0f172a',
+                            border: 'rgba(6, 182, 212, 0.30)',
+                            cyan: '#06b6d4',
+                            sky: '#38bdf8',
+                            pink: '#ec4899',
+                            rose: '#f43f5e',
+                            emerald: '#10b981',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Plotly.js CDN -->
+    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+    <!-- Executive Business Report CSS (v7.0 Cyber Cyan & Neon Pink) -->
+    <link rel="stylesheet" href="/static/css/style.css?v=7.0">
+</head>
+<body class="h-full flex flex-col font-sans text-slate-100 antialiased overflow-x-hidden selection:bg-cyan-500 selection:text-white">
+
+    <!-- LUMINOUS CYBER AMBIENT ORBS (CYAN & PINK) -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/25 rounded-full blur-[150px] pointer-events-none -z-10 cosmic-orb"></div>
+    <div class="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-[150px] pointer-events-none -z-10 cosmic-orb" style="animation-delay: 2.5s;"></div>
+    <div class="fixed top-1/2 right-10 w-96 h-96 bg-sky-500/15 rounded-full blur-[130px] pointer-events-none -z-10"></div>
+
+    <!-- TOP NAVIGATION BAR (DATAMIND AI) -->
+    <header class="exec-nav-header sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+            <!-- Brand Identity Logo & Title -->
+            <div class="flex items-center gap-3.5 cursor-pointer" onclick="showWelcomeScreen()">
+                <!-- Cyber Cyan & Pink Badge -->
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500 via-sky-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 border border-cyan-400/40 transform hover:scale-105 transition shrink-0">
+                    <i class="fas fa-brain text-lg text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="font-extrabold text-xl tracking-tight text-white uppercase font-heading galaxy-title-gradient">DataMind AI</span>
+                        <span class="px-2.5 py-0.5 text-[11px] font-black tracking-wider uppercase bg-cyan-500/20 text-cyan-200 rounded-full border border-cyan-400/40 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                            BÁO CÁO KINH DOANH
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-cyan-100/80 hidden sm:block font-medium">Công Ty Cổ Phần DataMind Intelligence • Nền Tảng Phân Tích Thông Minh</p>
+                </div>
+            </div>
+
+            <!-- Top Actions & Navigation Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="nav-btn-home" onclick="showWelcomeScreen()" class="px-3.5 py-2 rounded-xl text-xs font-bold exec-btn-ghost flex items-center gap-2 transition">
+                    <i class="fas fa-desktop text-cyan-300"></i>
+                    <span class="hidden sm:inline">Tổng Quan Slide</span>
+                </button>
+
+                <!-- NÚT BẮT ĐẦU QUY TRÌNH XỬ LÝ (NỔI BẬT CYAN & PINK) -->
+                <button id="nav-btn-start" onclick="startProcessWorkflow(1)" class="px-4 py-2 rounded-xl text-xs font-black exec-btn-primary flex items-center gap-2 transition shadow-lg uppercase tracking-wider">
+                    <i class="fas fa-play text-amber-300 text-[10px]"></i>
+                    <span>Bắt đầu quy trình xử lý</span>
+                </button>
+
+                <!-- Dataset Status Badge -->
+                <div id="dataset-badge" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#0f172a] text-cyan-100 border border-cyan-500/35 shadow-sm">
+                    <i class="fas fa-database text-cyan-400 text-xs"></i>
+                    <span id="current-dataset-label" class="truncate max-w-[140px]">Chưa có dữ liệu</span>
+                </div>
+
+                <!-- API Key Modal Button -->
+                <button onclick="openApiKeyModal()" class="px-3 py-2 rounded-xl text-xs font-semibold exec-btn-ghost flex items-center gap-1.5 transition" title="Cấu hình Google Gemini API Key">
+                    <i class="fas fa-key text-amber-300"></i>
+                    <span id="api-status-text" class="hidden md:inline">Gemini AI</span>
+                </button>
+
+                <!-- Nút Chuyển Đổi Giao Diện Sáng / Tối (Trắng / Đen) -->
+                <button id="theme-toggle-btn" onclick="toggleTheme()" class="px-3.5 py-2 rounded-xl text-xs font-bold exec-btn-ghost flex items-center gap-2 transition shadow-sm" title="Chuyển đổi giao diện Sáng (Trắng) hoặc Tối (Đen)">
+                    <i id="theme-toggle-icon" class="fas fa-sun text-amber-300"></i>
+                    <span id="theme-toggle-text" class="hidden sm:inline">Giao diện Sáng</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- STEPPER PROCESS BAR (THANH TIẾN TRÌNH 6 SLIDE CYAN & PINK) -->
+    <div id="stepper-process-bar" class="exec-stepper-bar py-3 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+                <!-- Slide 1 -->
+                <button onclick="switchTab(1)" id="step-btn-1" class="step-btn active flex items-center gap-2.5 p-2.5 rounded-2xl text-left transition">
+                    <div class="step-icon w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black shrink-0">1</div>
+                    <div class="min-w-0">
+                        <div class="text-[9px] uppercase tracking-wider text-cyan-300 font-bold truncate">Slide 01</div>
+                        <div class="step-title text-xs font-extrabold text-white truncate">Nạp Bảng Dữ Liệu</div>
+                    </div>
+                </button>
+                <!-- Slide 2 -->
+                <button onclick="switchTab(2)" id="step-btn-2" class="step-btn flex items-center gap-2.5 p-2.5 rounded-2xl text-left transition">
+                    <div class="step-icon w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black shrink-0">2</div>
+                    <div class="min-w-0">
+                        <div class="text-[9px] uppercase tracking-wider text-pink-300 font-bold truncate">Slide 02</div>
+                        <div class="step-title text-xs font-extrabold text-white truncate">Chẩn Đoán Lỗi</div>
+                    </div>
+                </button>
+                <!-- Slide 3 -->
+                <button onclick="switchTab(3)" id="step-btn-3" class="step-btn flex items-center gap-2.5 p-2.5 rounded-2xl text-left transition">
+                    <div class="step-icon w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black shrink-0">3</div>
+                    <div class="min-w-0">
+                        <div class="text-[9px] uppercase tracking-wider text-cyan-300 font-bold truncate">Slide 03 (Duyệt)</div>
+                        <div class="step-title text-xs font-extrabold text-white truncate">Trạm Phê Duyệt</div>
+                    </div>
+                </button>
+                <!-- Slide 4 -->
+                <button onclick="switchTab(4)" id="step-btn-4" class="step-btn flex items-center gap-2.5 p-2.5 rounded-2xl text-left transition">
+                    <div class="step-icon w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black shrink-0">4</div>
+                    <div class="min-w-0">
+                        <div class="text-[9px] uppercase tracking-wider text-emerald-300 font-bold truncate">Slide 04</div>
+                        <div class="step-title text-xs font-extrabold text-white truncate">Đối Soát & Bảng Sạch</div>
+                    </div>
+                </button>
+                <!-- Slide 5 -->
+                <button onclick="switchTab(5)" id="step-btn-5" class="step-btn flex items-center gap-2.5 p-2.5 rounded-2xl text-left transition">
+                    <div class="step-icon w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black shrink-0">5</div>
+                    <div class="min-w-0">
+                        <div class="text-[9px] uppercase tracking-wider text-pink-300 font-bold truncate">Slide 05</div>
+                        <div class="step-title text-xs font-extrabold text-white truncate">Chỉ Số & Biểu Đồ</div>
+                    </div>
+                </button>
+                <!-- Slide 6 -->
+                <button onclick="switchTab(6)" id="step-btn-6" class="step-btn flex items-center gap-2.5 p-2.5 rounded-2xl text-left transition">
+                    <div class="step-icon w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black shrink-0">6</div>
+                    <div class="min-w-0">
+                        <div class="text-[9px] uppercase tracking-wider text-cyan-300 font-bold truncate">Slide 06</div>
+                        <div class="step-title text-xs font-extrabold text-white truncate">Báo Cáo Điều Hành</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT AREA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+        <!-- ==================== GIAO DIỆN ĐẦU TIÊN: EXECUTIVE PRESENTATION MASTER (GALAXY) ==================== -->
+        <section id="welcome-hero-section" class="py-2 sm:py-6 space-y-8 animate-in fade-in duration-300">
+            
+            <!-- HÀNG 1: SLIDE CHÍNH (MASTER COVER GALAXY) & NỘI DUNG TRÌNH BÀY (AGENDA) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                
+                <!-- SLIDE CHÍNH: BÁO CÁO KINH DOANH (Cột Trái 7/12) -->
+                <div class="lg:col-span-7 exec-master-slide rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl flex flex-col justify-between">
+                    <!-- Cosmic Nebula Shimmer Overlay (Cyan & Pink) -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-black/50 via-transparent to-cyan-500/20 pointer-events-none"></div>
+                    <div class="absolute -bottom-16 -right-16 w-80 h-80 bg-pink-500/25 rounded-full blur-[100px] pointer-events-none"></div>
+
+                    <div class="relative z-10 space-y-6">
+                        <!-- Corporate Header -->
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center text-white font-black text-xs border border-white/30">
+                                <i class="fas fa-brain text-cyan-300"></i>
+                            </div>
+                            <span class="text-xs font-extrabold uppercase tracking-widest text-white/90">
+                                CÔNG TY CỔ PHẦN DATAMIND INTELLIGENCE
+                            </span>
+                        </div>
+
+                        <!-- Main Giant Title: BÁO CÁO KINH DOANH -->
+                        <div>
+                            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase font-heading leading-tight drop-shadow-md">
+                                BÁO CÁO KINH DOANH
+                            </h1>
+                            <div class="flex items-center gap-3 mt-2">
+                                <span class="text-xl sm:text-3xl font-extrabold text-pink-400 tracking-wider uppercase font-heading">
+                                    QUÝ II • 2025
+                                </span>
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/20 text-white backdrop-blur-md border border-white/30">
+                                    Bản Điều Hành Thông Minh
+                                </span>
+                            </div>
+                        </div>
+
+                        <p class="master-slide-desc text-sm sm:text-base leading-relaxed max-w-xl font-normal">
+                            Nền tảng AI tự động hóa toàn diện quy trình phân tích kinh doanh: Đọc toàn bộ bảng dữ liệu, chẩn đoán chất lượng, trạm kiểm duyệt minh bạch (Human-in-the-Loop) và kết xuất trực tiếp bản báo cáo chuyên nghiệp.
+                        </p>
+                    </div>
+
+                    <!-- NÚT BẮT ĐẦU QUY TRÌNH XỬ LÝ (KHỔNG LỒ) & THÔNG TIN TRÌNH BÀY -->
+                    <div class="relative z-10 pt-8 mt-6 border-t border-white/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="master-slide-meta-title text-[11px] font-medium">Trình bày: Khối Phân Tích Dữ Liệu & Ban Quản Trị</div>
+                            <div class="master-slide-meta-sub text-[10px]">Hà Nội & TP. Hồ Chí Minh • DataMind Intelligence 2025</div>
+                        </div>
+
+                        <button onclick="startProcessWorkflow(1)" id="btn-hero-start" class="px-8 py-4 exec-btn-hero rounded-2xl text-base font-black tracking-wider flex items-center justify-center gap-3 shadow-2xl hover:scale-105 active:scale-95 transition-all group cursor-pointer uppercase">
+                            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center group-hover:rotate-12 transition">
+                                <i class="fas fa-play text-pink-500 text-xs"></i>
+                            </span>
+                            <span>Bắt đầu quy trình xử lý</span>
+                            <i class="fas fa-arrow-right text-xs group-hover:translate-x-1.5 transition text-pink-500"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SLIDE PHỤ: NỘI DUNG TRÌNH BÀY (Cột Phải 5/12 - GALAXY AGENDA) -->
+                <div class="lg:col-span-5 exec-agenda-slide rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+                    <div>
+                        <!-- Header Agenda -->
+                        <div class="flex items-center justify-between pb-4 border-b border-purple-500/30">
+                            <div>
+                                <span class="agenda-eyebrow text-[10px] font-extrabold uppercase tracking-widest">Lộ Trình Phân Tích</span>
+                                <h3 class="agenda-heading text-lg font-black uppercase font-heading">NỘI DUNG TRÌNH BÀY</h3>
+                            </div>
+                            <div class="agenda-badge-6g w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black">
+                                6G
+                            </div>
+                        </div>
+
+                        <!-- 6 Giai Đoạn Chi Tiết -->
+                        <div class="space-y-2.5 mt-4">
+                            <!-- 01 -->
+                            <div onclick="startProcessWorkflow(1)" class="agenda-item p-2.5 rounded-xl flex items-center gap-3 cursor-pointer transition">
+                                <div class="agenda-num w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0">01</div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="agenda-item-title text-xs font-bold truncate">Tiếp nhận & nạp toàn bộ bảng dữ liệu</div>
+                                    <div class="agenda-item-sub text-[10px] truncate">Nạp 100% dòng dữ liệu không cắt bớt</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-[10px] agenda-chevron"></i>
+                            </div>
+
+                            <!-- 02 -->
+                            <div onclick="startProcessWorkflow(2)" class="agenda-item p-2.5 rounded-xl flex items-center gap-3 cursor-pointer transition">
+                                <div class="agenda-num w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0">02</div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="agenda-item-title text-xs font-bold truncate">Chẩn đoán lỗi & điểm sức khỏe dữ liệu</div>
+                                    <div class="agenda-item-sub text-[10px] truncate">Quét ô thiếu, trùng lặp, ngoại lai IQR</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-[10px] agenda-chevron"></i>
+                            </div>
+
+                            <!-- 03 -->
+                            <div onclick="startProcessWorkflow(3)" class="agenda-item p-2.5 rounded-xl flex items-center gap-3 cursor-pointer transition">
+                                <div class="agenda-num w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0">03</div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="agenda-item-title text-xs font-bold truncate">Trạm phê duyệt đề xuất (Human-in-the-Loop)</div>
+                                    <div class="agenda-item-sub text-[10px] truncate">Người dùng toàn quyền duyệt phương án làm sạch</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-[10px] agenda-chevron"></i>
+                            </div>
+
+                            <!-- 04 -->
+                            <div onclick="startProcessWorkflow(4)" class="agenda-item p-2.5 rounded-xl flex items-center gap-3 cursor-pointer transition">
+                                <div class="agenda-num w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0">04</div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="agenda-item-title text-xs font-bold truncate">Đối soát Before/After & bảng sạch</div>
+                                    <div class="agenda-item-sub text-[10px] truncate">Nhật ký kiểm toán và tải file CSV sạch</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-[10px] agenda-chevron"></i>
+                            </div>
+
+                            <!-- 05 -->
+                            <div onclick="startProcessWorkflow(5)" class="agenda-item p-2.5 rounded-xl flex items-center gap-3 cursor-pointer transition">
+                                <div class="agenda-num w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0">05</div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="agenda-item-title text-xs font-bold truncate">Phân tích chỉ số kinh doanh & KPIs</div>
+                                    <div class="agenda-item-sub text-[10px] truncate">4 Biểu đồ điều hành & Trợ lý AI Agent</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-[10px] agenda-chevron"></i>
+                            </div>
+
+                            <!-- 06 -->
+                            <div onclick="startProcessWorkflow(6)" class="agenda-item p-2.5 rounded-xl flex items-center gap-3 cursor-pointer transition">
+                                <div class="agenda-num w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0">06</div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="agenda-item-title text-xs font-bold truncate">Kết xuất báo cáo kinh doanh trực tiếp</div>
+                                    <div class="agenda-item-sub text-[10px] truncate">Xem toàn văn HTML & In ấn PDF</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-[10px] agenda-chevron"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-purple-500/20 text-[11px] agenda-footer-hint text-center font-medium">
+                        Nhấn vào từng giai đoạn hoặc bấm "Bắt đầu quy trình xử lý"
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- HÀNG 2: TỔNG QUAN HOẠT ĐỘNG & CHỈ SỐ KINH DOANH MẪU (CYAN & PINK KPIS) -->
+            <div class="exec-card rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-cyan-500/20">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-pink-400">Trình Chiếu Chỉ Số Điều Hành DataMind</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-black text-white uppercase font-heading">
+                            Tổng Quan Hoạt Động & Chỉ Số Kinh Doanh Quý II 2025
+                        </h3>
+                    </div>
+                    <span class="text-xs text-cyan-200/70 font-medium">Khung mẫu trực quan hóa dữ liệu kinh doanh chuẩn</span>
+                </div>
+
+                <!-- LƯỚI 6 THẺ KPI MẪU CYAN & PINK -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                    <!-- KPI 1: Doanh thu thuần -->
+                    <div class="exec-kpi-card p-4 rounded-2xl flex flex-col justify-between">
+                        <span class="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">Doanh thu thuần</span>
+                        <div class="my-2">
+                            <div class="text-xl sm:text-2xl font-black text-white font-heading">40 tỷ VNĐ</div>
+                            <div class="text-[10px] font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fas fa-arrow-trend-up"></i> +18.4%
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-cyan-200/60 pt-1.5 border-t border-cyan-500/20">Vượt 105% kế hoạch</div>
+                    </div>
+
+                    <!-- KPI 2: Thị trường mở rộng -->
+                    <div class="exec-kpi-card p-4 rounded-2xl flex flex-col justify-between">
+                        <span class="text-[10px] font-bold text-pink-300 uppercase tracking-wider">Thị trường mới</span>
+                        <div class="my-2">
+                            <div class="text-xl sm:text-2xl font-black text-pink-400 font-heading">+2</div>
+                            <div class="text-[10px] font-bold text-pink-300 flex items-center gap-1 mt-0.5">
+                                <i class="fas fa-building"></i> Chi nhánh
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-pink-200/60 pt-1.5 border-t border-pink-500/20">Miền Trung & Tây Nam Bộ</div>
+                    </div>
+
+                    <!-- KPI 3: Dòng sản phẩm -->
+                    <div class="exec-kpi-card p-4 rounded-2xl flex flex-col justify-between">
+                        <span class="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">Sản phẩm chủ lực</span>
+                        <div class="my-2">
+                            <div class="text-xl sm:text-2xl font-black text-white font-heading">3 dòng</div>
+                            <div class="text-[10px] font-bold text-cyan-300 flex items-center gap-1 mt-0.5">
+                                <i class="fas fa-box-archive"></i> Đóng góp 68%
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-cyan-200/60 pt-1.5 border-t border-cyan-500/20">Top phân khúc cao cấp</div>
+                    </div>
+
+                    <!-- KPI 4: Tăng trưởng -->
+                    <div class="exec-kpi-card p-4 rounded-2xl flex flex-col justify-between">
+                        <span class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">Tăng trưởng quý</span>
+                        <div class="my-2">
+                            <div class="text-xl sm:text-2xl font-black text-white font-heading">25%</div>
+                            <div class="text-[10px] font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fas fa-chart-line"></i> Tốc độ cao
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-emerald-200/60 pt-1.5 border-t border-emerald-500/20">So với cùng kỳ năm trước</div>
+                    </div>
+
+                    <!-- KPI 5: Hiệu quả chiến dịch -->
+                    <div class="exec-kpi-card p-4 rounded-2xl flex flex-col justify-between">
+                        <span class="text-[10px] font-bold text-pink-300 uppercase tracking-wider">Chiến dịch Marketing</span>
+                        <div class="my-2">
+                            <div class="text-base sm:text-lg font-black text-pink-300 font-heading">Chiến dịch tốt</div>
+                            <div class="text-[10px] font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fas fa-bullseye"></i> ROI 320%
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-pink-200/60 pt-1.5 border-t border-pink-500/20">Chuyển đổi số vượt trội</div>
+                    </div>
+
+                    <!-- KPI 6: Lợi nhuận -->
+                    <div class="exec-kpi-card p-4 rounded-2xl flex flex-col justify-between">
+                        <span class="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">Lợi nhuận ròng</span>
+                        <div class="my-2">
+                            <div class="text-xl sm:text-2xl font-black text-white font-heading">2,5 tỷ VNĐ</div>
+                            <div class="text-[10px] font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
+                                <i class="fas fa-sack-dollar"></i> +12% MoM
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-cyan-200/60 pt-1.5 border-t border-cyan-500/20">Biên lợi nhuận vững chắc</div>
+                    </div>
+                </div>
+
+                <!-- THANH CHÂN TRANG -->
+                <div class="pt-4 border-t border-cyan-500/20 flex flex-wrap items-center justify-between gap-4 text-xs text-cyan-200/70 font-semibold">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-pen-to-square text-pink-400"></i>
+                        <span>Tùy chỉnh dữ liệu linh hoạt 100%</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-expand text-cyan-400"></i>
+                        <span>Tỷ lệ chuẩn 16:9 Doanh Nghiệp</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-font text-pink-400"></i>
+                        <span>Bộ Font chữ Doanh nhân cao cấp</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-file-pdf text-emerald-400"></i>
+                        <span>Xuất bản báo cáo PDF & HTML</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== KHU VỰC CÁC BƯỚC NHỎ TRONG QUY TRÌNH (TỪ BƯỚC 1 ĐẾN 6) ==================== -->
+        <div id="workflow-steps-container" class="space-y-6 hidden">
+
+        <!-- ==================== TAB 1: NẠP TOÀN BỘ BẢNG DỮ LIỆU (SLIDE 01) ==================== -->
+        <section id="tab-content-1" class="tab-pane space-y-6">
+            <div class="exec-card rounded-3xl p-6 sm:p-8 space-y-6">
+                <!-- Slide Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-cyan-500/20">
+                    <div>
+                        <div class="slide-tag inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-2">
+                            <i class="fas fa-database text-cyan-400"></i> SLIDE 01 / 06 • TIẾP NHẬN DỮ LIỆU TOÀN DIỆN
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white font-heading uppercase exec-heading">
+                            Bước 1: Nạp & Quản Lý Toàn Bộ Bảng Dữ Liệu
+                        </h2>
+                        <p class="slide-subtitle text-sm mt-1 leading-relaxed">
+                            Hỗ trợ các định dạng file <code class="exec-code">.csv</code>, <code class="exec-code">.xlsx</code>, <code class="exec-code">.xls</code>, <code class="exec-code">.json</code>.
+                            Hệ thống nạp toàn bộ 100% số dòng của bảng dữ liệu (không cắt bớt).
+                        </p>
+                    </div>
+                    <button onclick="switchTab(2)" class="px-5 py-2.5 exec-btn-primary rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shrink-0">
+                        <span>Sang Bước 2: Chẩn Đoán</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- 1-Click Sample Datasets Selection -->
+                <div class="space-y-3">
+                    <div class="sample-selection-title text-xs font-extrabold uppercase tracking-wider flex items-center gap-2">
+                        <i class="fas fa-wand-magic-sparkles text-pink-400"></i> Chọn bộ dữ liệu doanh nghiệp mẫu thử nghiệm tức thì:
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="sample-dataset-cards">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Drag & Drop Upload Zone -->
+                <div class="relative">
+                    <div id="drop-zone" class="border-2 border-dashed border-cyan-500/40 hover:border-pink-400 exec-dropzone rounded-3xl p-8 sm:p-12 text-center transition cursor-pointer flex flex-col items-center justify-center group shadow-inner">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500/30 to-pink-500/30 border border-cyan-400/40 text-cyan-200 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition shadow-lg shadow-cyan-500/20">
+                            <i class="fas fa-cloud-arrow-up text-pink-400"></i>
+                        </div>
+                        <h4 class="dropzone-title font-bold text-white text-base mb-1 font-heading uppercase">Kéo thả tệp dữ liệu kinh doanh vào đây hoặc nhấp để chọn tệp</h4>
+                        <p class="dropzone-desc text-xs max-w-sm mb-4">Hỗ trợ dung lượng tới 50MB. DataMind AI sẽ tự động đọc toàn bộ bảng và phân loại kiểu dữ liệu.</p>
+                        <input type="file" id="file-input" class="hidden" accept=".csv, .xlsx, .xls, .json">
+                        <button type="button" onclick="document.getElementById('file-input').click()" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg">
+                            <i class="fas fa-folder-open"></i> Chọn tệp từ máy tính
+                        </button>
+                    </div>
+                    <!-- Upload Loading Overlay -->
+                    <div id="upload-spinner" class="hidden absolute inset-0 bg-[#070b16]/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center z-10 border border-cyan-500/40">
+                        <div class="w-12 h-12 border-4 border-cyan-500/30 border-t-pink-400 rounded-full animate-spin mb-3"></div>
+                        <p class="text-xs font-bold text-cyan-100">Đang nạp toàn bộ bảng và chẩn đoán chất lượng dữ liệu...</p>
+                    </div>
+                </div>
+
+                <!-- BẢNG HIỂN THỊ TOÀN BỘ DỮ LIỆU THÔ (100% DÒNG, TÌM KIẾM, PHÂN TRANG) -->
+                <div id="raw-preview-container" class="mt-8 hidden space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-purple-500/20">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-table-cells text-cyan-400"></i>
+                            <h3 class="font-bold text-white text-sm font-heading uppercase">Toàn Bộ Dữ Liệu Bảng Đã Nạp</h3>
+                            <span id="raw-count-tag" class="text-xs px-3 py-0.5 rounded-full bg-purple-950/70 text-cyan-200 font-bold font-mono border border-purple-500/40"></span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <!-- Tìm kiếm trong bảng -->
+                            <div class="relative">
+                                <input type="text" id="raw-table-search" oninput="filterRawTable()" placeholder="Tìm kiếm trong bảng..." class="px-3 py-1.5 pl-8 text-xs rounded-xl exec-input placeholder-purple-300/40 focus:outline-none">
+                                <i class="fas fa-search absolute left-2.5 top-2.5 text-[10px] text-purple-300"></i>
+                            </div>
+                            <!-- Số dòng mỗi trang -->
+                            <select id="raw-page-size" onchange="changeRawPageSize(this.value)" class="px-2.5 py-1.5 text-xs rounded-xl exec-input focus:outline-none">
+                                <option value="15">15 dòng / trang</option>
+                                <option value="25">25 dòng / trang</option>
+                                <option value="50">50 dòng / trang</option>
+                                <option value="100">100 dòng / trang</option>
+                                <option value="-1">Tất cả các dòng</option>
+                            </select>
+                            <button onclick="switchTab(2)" class="px-4 py-1.5 exec-btn-primary rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-md">
+                                <span>Tiến vào Bước 2</span> <i class="fas fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bảng dữ liệu thô -->
+                    <div class="overflow-x-auto rounded-2xl border border-purple-500/25 max-h-96 shadow-inner exec-table-wrap">
+                        <table class="w-full text-left border-collapse text-xs exec-table" id="raw-preview-table">
+                            <!-- JS populated -->
+                        </table>
+                    </div>
+
+                    <!-- Phân trang dữ liệu thô -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 text-xs text-purple-200/80">
+                        <div id="raw-pagination-info" class="font-medium">Hiển thị 0 dòng</div>
+                        <div class="flex items-center gap-1" id="raw-pagination-controls">
+                            <!-- JS populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Điều Hướng Cuối Bước 1 -->
+                <div class="flex items-center justify-between pt-4 border-t border-purple-500/20">
+                    <button onclick="showWelcomeScreen()" class="px-5 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2">
+                        <i class="fas fa-home"></i> Về Màn Hình Chính
+                    </button>
+                    <button onclick="switchTab(2)" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                        Tiến vào Bước 2: AI Chẩn Đoán Lỗi <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: AI CHẨN ĐOÁN LỖI & ĐIỂM SỨC KHỎE (SLIDE 02) ==================== -->
+        <section id="tab-content-2" class="tab-pane hidden space-y-6">
+            <div class="exec-card rounded-3xl p-6 sm:p-8 space-y-6">
+                <!-- Header Bước 2 -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-purple-500/25">
+                    <div>
+                        <div class="slide-tag inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-2">
+                            <i class="fas fa-shield-halved text-cyan-400"></i> SLIDE 02 / 06 • DATA SENTINEL QUALITY
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white font-heading uppercase exec-heading">
+                            Bước 2: AI Chẩn Đoán Lỗi & Điểm Sức Khỏe
+                        </h2>
+                        <p class="slide-subtitle text-sm mt-1 max-w-2xl leading-relaxed">
+                            DataMind AI đã quét toàn bộ dữ liệu thô và phát hiện các điểm lỗi cấu trúc, ô khuyết, trùng lặp và ngoại lai IQR.
+                        </p>
+                    </div>
+
+                    <!-- Health Score Gauge -->
+                    <div id="health-score-pod" class="health-score-pod exec-score-pod p-4 rounded-2xl border border-cyan-500/35 flex items-center gap-4 shrink-0 shadow-xl shadow-cyan-950/40">
+                        <div class="relative w-16 h-16 flex items-center justify-center">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <path id="health-score-track" class="text-slate-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path id="health-score-circle" class="text-cyan-400" stroke-dasharray="70, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            </svg>
+                            <span id="health-score-val" class="absolute text-sm font-black text-white font-heading">--%</span>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-cyan-200/80 health-label-top">Điểm Sức Khỏe Ban Đầu</div>
+                            <div id="health-grade-text" class="text-base font-extrabold text-pink-400 font-heading">Đang quét...</div>
+                            <div class="text-[10px] text-cyan-200/70 health-label-sub">Cần làm sạch trước khi phân tích</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Thẻ Thống Kê Sự Cố (Data Sentinel Metric Pods) -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="metric-pod-dup exec-metric-pod rounded-2xl p-4 border border-cyan-500/35 shadow-sm">
+                        <div class="text-xs text-cyan-200 font-medium flex items-center gap-1.5 metric-pod-title">
+                            <i class="fas fa-clone text-cyan-400"></i> Bản Ghi Trùng Lặp
+                        </div>
+                        <div id="diag-dup-count" class="text-xl font-black text-white mt-1 metric-pod-val font-heading">0</div>
+                        <div class="text-[11px] text-cyan-300/80 mt-0.5 metric-pod-sub">Dòng trùng 100%</div>
+                    </div>
+                    <div class="metric-pod-null exec-metric-pod rounded-2xl p-4 border border-pink-500/35 shadow-sm">
+                        <div class="text-xs text-pink-200 font-medium flex items-center gap-1.5 metric-pod-title">
+                            <i class="fas fa-circle-question text-pink-400"></i> Ô Khuyết Thiếu (Null)
+                        </div>
+                        <div id="diag-null-count" class="text-xl font-black text-white mt-1 metric-pod-val font-heading">0</div>
+                        <div id="diag-null-pct" class="text-[11px] text-pink-300/80 mt-0.5 metric-pod-sub">0% tổng số ô</div>
+                    </div>
+                    <div class="metric-pod-outlier exec-metric-pod rounded-2xl p-4 border border-cyan-500/35 shadow-sm">
+                        <div class="text-xs text-cyan-200 font-medium flex items-center gap-1.5 metric-pod-title">
+                            <i class="fas fa-arrows-split-up-and-left text-cyan-400"></i> Giá Trị Ngoại Lai
+                        </div>
+                        <div id="diag-outlier-count" class="text-xl font-black text-white mt-1 metric-pod-val font-heading">0</div>
+                        <div class="text-[11px] text-cyan-300/80 mt-0.5 metric-pod-sub">Vượt ngưỡng IQR 1.5x</div>
+                    </div>
+                    <div class="metric-pod-format exec-metric-pod rounded-2xl p-4 border border-pink-500/35 shadow-sm">
+                        <div class="text-xs text-pink-200 font-medium flex items-center gap-1.5 metric-pod-title">
+                            <i class="fas fa-font text-pink-400"></i> Định Dạng Chuỗi/Ngày
+                        </div>
+                        <div id="diag-format-count" class="text-xl font-black text-white mt-1 metric-pod-val font-heading">0</div>
+                        <div class="text-[11px] text-pink-300/80 mt-0.5 metric-pod-sub">Cần chuẩn hóa datetime/trim</div>
+                    </div>
+                </div>
+
+                <!-- BẢNG CHI TIẾT CÁC CỘT BỊ LỖI (MISSING & OUTLIERS) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Chi tiết Cột Thiếu -->
+                    <div class="exec-sub-card p-5 rounded-2xl border border-pink-500/25 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-bold text-pink-400 flex items-center gap-2 uppercase tracking-wider font-heading">
+                                <i class="fas fa-triangle-exclamation"></i> Chi Tiết Giá Trị Khuyết Thiếu Theo Cột
+                            </h4>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-400/30 font-semibold">Critical Fields</span>
+                        </div>
+                        <div id="diag-missing-container" class="text-xs space-y-2">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Chi tiết Cột Ngoại Lai -->
+                    <div class="exec-sub-card p-5 rounded-2xl border border-cyan-500/25 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-bold text-cyan-400 flex items-center gap-2 uppercase tracking-wider font-heading">
+                                <i class="fas fa-chart-line-down"></i> Chi Tiết Ngưỡng Ngoại Lai IQR Theo Cột
+                            </h4>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-semibold">IQR Outliers</span>
+                        </div>
+                        <div id="diag-outlier-container" class="text-xs space-y-2">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Điều Hướng Cuối Bước 2 -->
+                <div class="flex items-center justify-between pt-6 border-t border-purple-500/20">
+                    <button onclick="switchTab(1)" class="px-5 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Quay lại Bước 1: Nạp Dữ Liệu
+                    </button>
+                    <button onclick="switchTab(3)" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                        Tiến vào Bước 3: Trạm Duyệt Làm Sạch (HITL) <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: TRẠM KIỂM DUYỆT PHÊ DUYỆT LÀM SẠCH (SLIDE 03 - HITL) ==================== -->
+        <section id="tab-content-3" class="tab-pane hidden space-y-6">
+            <div class="exec-card rounded-3xl p-6 sm:p-8 space-y-6">
+                <!-- Header Bước 3 -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cyan-500/20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-pink-500/25 text-pink-400 flex items-center justify-center font-bold text-lg border border-pink-400/40 shadow-[0_0_15px_rgba(236,72,153,0.25)] shrink-0">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div>
+                            <div class="slide-tag inline-flex items-center gap-2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-1">
+                                SLIDE 03 / 06 • TRẠM KIỂM DUYỆT (HUMAN-IN-THE-LOOP)
+                            </div>
+                            <h3 class="font-black text-white text-xl sm:text-2xl font-heading uppercase exec-heading">
+                                Bước 3: Người Dùng Duyệt Từng Hành Động Làm Sạch
+                            </h3>
+                            <p class="text-xs slide-subtitle">Bạn có toàn quyền kiểm soát: Bật/tắt duyệt từng mục hoặc tùy chỉnh chiến lược xử lý trước khi thực thi</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleAllProposals(true)" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold exec-btn-ghost transition">
+                            <i class="fas fa-check-square mr-1 text-cyan-400"></i> Chọn tất cả
+                        </button>
+                        <button onclick="toggleAllProposals(false)" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold exec-btn-ghost transition">
+                            <i class="far fa-square mr-1 text-pink-400"></i> Bỏ chọn tất cả
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Danh sách các hành động có thể duyệt (Interactive Proposals List) -->
+                <div id="proposals-list" class="space-y-3">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Nút Duyệt & Áp Dụng Lớn -->
+                <div class="pt-4 border-t border-cyan-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="text-xs text-cyan-200/80 flex items-center gap-2">
+                        <i class="fas fa-shield-halved text-cyan-400"></i>
+                        <span>Dữ liệu gốc được bảo toàn 100%; hệ thống tạo một bản dữ liệu sạch độc lập sau khi bạn duyệt.</span>
+                    </div>
+                    <button id="btn-approve-clean" onclick="executeApprovedCleaning()" class="px-8 py-3.5 exec-btn-primary rounded-2xl text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-xl">
+                        <i class="fas fa-circle-check text-base"></i> Phê Duyệt & Thực Thi Làm Sạch Ngay
+                    </button>
+                </div>
+
+                <!-- Điều Hướng Cuối Bước 3 -->
+                <div class="flex items-center justify-between pt-4 border-t border-cyan-500/20">
+                    <button onclick="switchTab(2)" class="px-5 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Quay lại Bước 2: Chẩn Đoán Lỗi
+                    </button>
+                    <button onclick="switchTab(4)" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                        Tiến vào Bước 4: Đối Soát & Bảng Sạch <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: ĐỐI SOÁT SAU LÀM SẠCH & BẢNG DỮ LIỆU SẠCH (SLIDE 04) ==================== -->
+        <section id="tab-content-4" class="tab-pane hidden space-y-6">
+            <div id="cleaning-result-container" class="exec-card rounded-3xl p-6 sm:p-8 space-y-6">
+                <!-- Header Bước 4 -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cyan-500/20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/25 text-cyan-400 flex items-center justify-center text-xl border border-cyan-400/40 shadow-[0_0_15px_rgba(6,182,212,0.3)] shrink-0">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div>
+                            <div class="slide-tag inline-flex items-center gap-2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-1">
+                                SLIDE 04 / 06 • CHỨNG NHẬN DỮ LIỆU SẠCH
+                            </div>
+                            <h3 class="font-black text-white text-xl sm:text-2xl font-heading uppercase exec-heading">
+                                Bước 4: Kiểm Chứng, Đối Soát & Bảng Sạch Hoàn Chỉnh
+                            </h3>
+                            <p class="text-xs slide-subtitle font-medium">Toàn bộ hành động đã duyệt được thực thi an toàn và ghi nhận vào Audit Log của DataMind AI</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <a href="/api/data/download-clean" target="_blank" class="px-4 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                            <i class="fas fa-download text-pink-400"></i> Tải Dữ Liệu Sạch (.CSV)
+                        </a>
+                        <button onclick="switchTab(5)" class="px-5 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                            Bước 5: Khám Phá EDA <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- So sánh Trước vs Sau dạng 4 Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="before-after-cards">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Nhật ký kiểm toán Audit Trail -->
+                <div class="exec-sub-card p-5 rounded-2xl border border-cyan-500/20 space-y-3">
+                    <h4 class="text-xs font-bold text-white flex items-center gap-2 uppercase tracking-wider font-heading">
+                        <i class="fas fa-clipboard-list text-pink-400"></i> Nhật Ký Kiểm Toán Làm Sạch (Audit Trail Log)
+                    </h4>
+                    <div id="audit-trail-container" class="text-xs space-y-1.5 max-h-48 overflow-y-auto">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- BẢNG XEM TOÀN BỘ DỮ LIỆU SẠCH (PAGINATION & SEARCH) -->
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cyan-500/20">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-table-cells text-cyan-400"></i>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-200 font-heading">Toàn Bộ Dữ Liệu Sạch Đã Chuẩn Hóa</h4>
+                            <span id="clean-count-tag" class="text-xs px-3 py-0.5 rounded-full bg-slate-900 text-pink-400 font-bold font-mono border border-pink-400/35"></span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <!-- Tìm kiếm dữ liệu sạch -->
+                            <div class="relative">
+                                <input type="text" id="clean-table-search" oninput="filterCleanTable()" placeholder="Tìm trong bảng sạch..." class="px-3 py-1.5 pl-8 text-xs rounded-xl exec-input placeholder-purple-300/40 focus:outline-none">
+                                <i class="fas fa-search absolute left-2.5 top-2.5 text-[10px] text-purple-300"></i>
+                            </div>
+                            <!-- Phân trang dữ liệu sạch -->
+                            <select id="clean-page-size" onchange="changeCleanPageSize(this.value)" class="px-2.5 py-1.5 text-xs rounded-xl exec-input focus:outline-none">
+                                <option value="15">15 dòng / trang</option>
+                                <option value="25">25 dòng / trang</option>
+                                <option value="50">50 dòng / trang</option>
+                                <option value="100">100 dòng / trang</option>
+                                <option value="-1">Tất cả các dòng</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Bảng dữ liệu sạch -->
+                    <div class="overflow-x-auto rounded-2xl border border-purple-500/25 max-h-96 shadow-inner exec-table-wrap">
+                        <table class="w-full text-left border-collapse text-xs exec-table" id="cleaned-preview-table">
+                            <!-- Populated by JS -->
+                        </table>
+                    </div>
+
+                    <!-- Phân trang dữ liệu sạch -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 text-xs text-purple-200/80">
+                        <div id="clean-pagination-info" class="font-medium">Hiển thị 0 dòng</div>
+                        <div class="flex items-center gap-1" id="clean-pagination-controls">
+                            <!-- JS populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Điều Hướng Cuối Bước 4 -->
+                <div class="flex items-center justify-between pt-4 border-t border-purple-500/20">
+                    <button onclick="switchTab(3)" class="px-5 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Quay lại Bước 3: Trạm Duyệt
+                    </button>
+                    <button onclick="switchTab(5)" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                        Tiến vào Bước 5: Khám Phá EDA <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: PHÂN TÍCH CHỈ SỐ KINH DOANH & EDA (SLIDE 05) ==================== -->
+        <section id="tab-content-5" class="tab-pane hidden space-y-6">
+            <!-- Header Bước 5 -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 exec-card p-6 rounded-3xl">
+                <div>
+                    <div class="slide-tag inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold mb-2">
+                        <i class="fas fa-chart-pie text-cyan-300"></i> SLIDE 05 / 06 • CHỈ SỐ KINH DOANH & BIỂU ĐỒ
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white font-heading uppercase exec-heading">
+                        Bước 5: Phân Tích Chỉ Số Kinh Doanh & EDA
+                    </h2>
+                    <p class="slide-subtitle text-sm mt-0.5">Khám phá các chiều tương quan, phân bố thống kê và đối thoại trực tiếp với Trợ Lý AI</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="runDeepAnalysis()" id="btn-re-analyze" class="px-4 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <i class="fas fa-rotate text-purple-300"></i> Phân Tích Lại
+                    </button>
+                    <button onclick="switchTab(6)" class="px-5 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                        Bước 6: Báo Cáo Điều Hành <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Cards Lưới 4 cột (High Impact Metrics) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="kpi-cards-container">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Lưới Biểu Đồ Plotly Tương Tác (CYAN & PINK THEME) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Biểu đồ Tương quan Heatmap -->
+                <div class="exec-card rounded-3xl p-5 border border-cyan-500/20">
+                    <div class="flex items-center justify-between mb-2 pb-2 border-b border-cyan-500/20">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 font-heading uppercase">
+                            <i class="fas fa-border-all text-cyan-400"></i> Ma Trận Tương Quan (Pearson)
+                        </h4>
+                        <span class="text-[11px] text-cyan-200/80">Mức độ liên kết</span>
+                    </div>
+                    <div id="chart-tab3-corr" class="w-full h-80"></div>
+                </div>
+
+                <!-- Biểu đồ Phân Phối / Tần Suất -->
+                <div class="exec-card rounded-3xl p-5 border border-pink-500/20">
+                    <div class="flex items-center justify-between mb-2 pb-2 border-b border-pink-500/20">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 font-heading uppercase">
+                            <i class="fas fa-chart-column text-pink-400"></i> Phân Phối Tần Suất Biến Số Chủ Lực
+                        </h4>
+                        <span class="text-[11px] text-pink-200/80">Histogram & Boxplot</span>
+                    </div>
+                    <div id="chart-tab3-dist" class="w-full h-80"></div>
+                </div>
+
+                <!-- Biểu đồ Phân loại Danh mục -->
+                <div class="exec-card rounded-3xl p-5 border border-cyan-500/20">
+                    <div class="flex items-center justify-between mb-2 pb-2 border-b border-cyan-500/20">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 font-heading uppercase">
+                            <i class="fas fa-chart-pie text-cyan-400"></i> Cơ Cấu Theo Phân Khúc
+                        </h4>
+                        <span class="text-[11px] text-cyan-200/80">Top phân nhóm</span>
+                    </div>
+                    <div id="chart-tab3-cat" class="w-full h-80"></div>
+                </div>
+
+                <!-- Biểu đồ Phân tán Scatter -->
+                <div class="exec-card rounded-3xl p-5 border border-pink-500/20">
+                    <div class="flex items-center justify-between mb-2 pb-2 border-b border-pink-500/20">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2 font-heading uppercase">
+                            <i class="fas fa-braille text-pink-400"></i> Phân Tán Mối Quan Hệ Cốt Lõi
+                        </h4>
+                        <span class="text-[11px] text-pink-200/80">Scatter Relationship</span>
+                    </div>
+                    <div id="chart-tab3-scatter" class="w-full h-80"></div>
+                </div>
+            </div>
+
+            <!-- KHUNG TRÒ CHUYỆN VỚI TRỢ LÝ AI AGENT PHÂN TÍCH -->
+            <div class="exec-card rounded-3xl p-6 sm:p-8 space-y-4 border border-cyan-500/25">
+                <div class="flex items-center justify-between pb-3 border-b border-cyan-500/20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-500 to-pink-500 text-white flex items-center justify-center text-base shadow-md shadow-cyan-500/30">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-base font-heading uppercase">Trợ Lý AI Phân Tích DataMind</h3>
+                            <p class="text-xs text-cyan-200/80">Đặt câu hỏi tự do về bất kỳ chỉ số, xu hướng hoặc bất thường nào trong tập dữ liệu</p>
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-emerald-300 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-400/40 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Sẵn sàng phân tích
+                    </span>
+                </div>
+
+                <!-- Chat Messages History Container -->
+                <div id="chat-messages" class="h-64 overflow-y-auto space-y-3 p-4 rounded-2xl exec-chat-box">
+                    <!-- Default welcome message -->
+                    <div class="flex items-start gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-cyan-600 text-white flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-sm">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="exec-chat-bubble p-3.5 rounded-2xl rounded-tl-none text-xs text-slate-100 shadow-md max-w-xl leading-relaxed">
+                            Xin chào! Tôi là Trợ lý AI Phân tích Dữ liệu của <strong class="text-cyan-400">DataMind Intelligence</strong>. Dữ liệu kinh doanh đã được chuẩn hóa an toàn.
+                            Bạn có thể hỏi tôi bất kỳ điều gì:
+                            <div class="mt-2.5 flex flex-wrap gap-1.5">
+                                <button onclick="sendQuickPrompt('Cột nào có tương quan mạnh nhất?')" class="px-2.5 py-1 exec-prompt-btn rounded-lg text-[11px] transition font-medium">
+                                    "Cột nào tương quan mạnh nhất?"
+                                </button>
+                                <button onclick="sendQuickPrompt('Dữ liệu có đặc điểm và phân bố như thế nào?')" class="px-2.5 py-1 exec-prompt-btn rounded-lg text-[11px] transition font-medium">
+                                    "Đặc điểm phân bố chính là gì?"
+                                </button>
+                                <button onclick="sendQuickPrompt('Đề xuất 3 giải pháp cải thiện hiệu suất doanh nghiệp?')" class="px-2.5 py-1 exec-prompt-btn rounded-lg text-[11px] transition font-medium">
+                                    "3 giải pháp tăng trưởng hiệu suất?"
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Box -->
+                <form onsubmit="handleChatSubmit(event)" class="flex gap-2.5">
+                    <input type="text" id="chat-input" placeholder="Nhập câu hỏi phân tích kinh doanh cho DataMind AI..." class="flex-1 px-4 py-2.5 text-xs rounded-xl exec-input placeholder-cyan-300/40 focus:outline-none">
+                    <button type="submit" id="btn-chat-send" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md uppercase">
+                        <span>Gửi</span> <i class="fas fa-paper-plane text-[10px]"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Điều Hướng Cuối Bước 5 -->
+            <div class="flex items-center justify-between pt-2">
+                <button onclick="switchTab(4)" class="px-5 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Quay lại Bước 4: Đối Soát Sạch
+                </button>
+                <button onclick="switchTab(6)" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                    Tiến vào Bước 6: Báo Cáo Điều Hành <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 6: BÁO CÁO KINH DOANH ĐIỀU HÀNH TRỰC TIẾP (SLIDE 06) ==================== -->
+        <section id="tab-content-6" class="tab-pane hidden space-y-6">
+            <!-- Toolbar Điều khiển Báo cáo -->
+            <div class="exec-card rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-cyan-500/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-pink-500 text-white flex items-center justify-center text-lg shadow-md shadow-pink-500/20 shrink-0">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-black text-white font-heading uppercase exec-heading">Bước 6: Báo Cáo Kinh Doanh Điều Hành Trực Tiếp</h2>
+                            <span class="slide-tag px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase">
+                                <i class="fas fa-circle-check mr-1 text-emerald-400"></i> Xuất Bản Trực Tiếp
+                            </span>
+                        </div>
+                        <p class="text-xs slide-subtitle">Báo cáo kinh doanh được kết xuất nguyên bản trực tiếp trên giao diện và sẵn sàng xuất bản / in ấn PDF</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons: Tải HTML, In/Xuất PDF, Mở Tab mới -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <a href="/api/report/download" target="_blank" class="px-4 py-2.5 exec-btn-primary rounded-xl text-xs font-black uppercase tracking-wider transition flex items-center gap-2 shadow-lg">
+                        <i class="fas fa-download"></i> Tải Báo Cáo (.HTML)
+                    </a>
+                    <button onclick="printReportIframe()" class="px-4 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md">
+                        <i class="fas fa-print text-pink-400"></i> In / Xuất PDF
+                    </button>
+                    <a href="/api/report/html" target="_blank" class="px-3.5 py-2.5 exec-btn-ghost rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+                        <i class="fas fa-up-right-from-square text-cyan-300"></i> Mở tab mới
+                    </a>
+                    <button onclick="reloadReport()" class="px-3 py-2.5 exec-btn-ghost rounded-xl text-xs transition" title="Tải lại báo cáo">
+                        <i class="fas fa-rotate text-cyan-300"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Khung Trực Tiếp Hiển Thị Báo Cáo HTML -->
+            <div class="exec-card rounded-3xl shadow-2xl overflow-hidden relative border border-cyan-500/30" style="height: 840px;">
+                <iframe id="report-iframe" src="/api/report/html" class="w-full h-full border-0" title="Báo Cáo Kinh Doanh Live Preview"></iframe>
+                
+                <!-- Loading overlay for iframe -->
+                <div id="iframe-spinner" class="hidden absolute inset-0 bg-[#070b16]/95 backdrop-blur-md flex flex-col items-center justify-center z-10 border border-cyan-500/35">
+                    <div class="w-12 h-12 border-4 border-cyan-500/30 border-t-pink-400 rounded-full animate-spin mb-3"></div>
+                    <p class="text-xs font-bold text-cyan-100">Đang khởi tạo và kết xuất bản báo cáo kinh doanh HTML tương tác...</p>
+                </div>
+            </div>
+
+            <!-- Điều Hướng Cuối Bước 6 -->
+            <div class="flex items-center justify-between pt-2">
+                <button onclick="switchTab(5)" class="px-5 py-2.5 exec-btn-ghost rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Quay lại Bước 5: Chỉ Số & Biểu Đồ
+                </button>
+                <button onclick="showWelcomeScreen()" class="px-6 py-2.5 exec-btn-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                    <i class="fas fa-home"></i> Màn Hình Chính / Bắt Đầu Lại
+                </button>
+            </div>
+        </section>
+
+        </div><!-- Kết thúc workflow-steps-container -->
+
+    </main>
+
+    <!-- MODAL CÀI ĐẶT GEMINI API KEY -->
+    <div id="apikey-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
+        <div class="exec-card rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 animate-in fade-in zoom-in duration-150 border-cyan-500/40">
+            <div class="flex items-center justify-between pb-3 border-b border-cyan-500/20">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-pink-500/25 text-pink-400 flex items-center justify-center font-bold border border-pink-400/40">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base font-heading uppercase">Cài Đặt Gemini API Key</h3>
+                </div>
+                <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Hệ thống <strong class="text-cyan-400">DataMind AI</strong> đã tích hợp sẵn bộ suy luận AI Thống kê Nội bộ (Heuristic Engine) để hoạt động 100% độc lập không cần API key.
+                Nếu bạn nhập <strong class="text-pink-400">Google Gemini API Key</strong>, AI Agent sẽ kích hoạt khả năng viết báo cáo điều hành và trả lời câu hỏi tự do sâu sắc hơn.
+            </p>
+
+            <div class="space-y-2">
+                <label class="text-xs font-semibold text-slate-200">Gemini API Key</label>
+                <input type="password" id="modal-api-key-input" placeholder="AIzaSy..." class="w-full px-4 py-2.5 text-xs rounded-xl exec-input placeholder-cyan-300/40 focus:outline-none">
+                <p class="text-[11px] text-slate-400">Khóa API được lưu tạm thời trong phiên làm việc an toàn.</p>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button type="button" onclick="closeApiKeyModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition">
+                    Đóng
+                </button>
+                <button type="button" onclick="saveApiKey()" class="px-6 py-2 exec-btn-primary rounded-xl text-xs font-bold transition shadow-md uppercase">
+                    Lưu Cài Đặt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION (HIGH CONTRAST & ADAPTIVE) -->
+    <div id="toast" class="exec-toast fixed top-20 right-6 z-50 hidden max-w-sm px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 text-xs transition-all duration-300 transform">
+        <i id="toast-icon" class="fas fa-circle-info text-base shrink-0"></i>
+        <span id="toast-msg" class="font-bold">Thông báo</span>
+    </div>
+
+    <!-- JS Scripts (v7.0 Cyber Cyan & Neon Pink) -->
+    <script src="/static/js/app.js?v=7.0"></script>
+</body>
+</html>
